@@ -1,0 +1,186 @@
+零、配置git
+1.	git config --global user.name "用户名"
+2.	git config --global user.email "邮箱"
+
+一、创建版本库
+1.首先进入一个文件夹中
+2.	git init
+
+二、添加文件到版本库
+1.add 把文件提交到暂存区
+	git add readme.txt
+	也可以多文件添加
+	git add 1.txt 2.txt
+	-f 强制添加
+2.commit 把暂存区的内容提交到当前分支
+	git commit -m "注释
+	
+三、查看版本库的状态
+1. git status
+2. 查看文件改动的内容
+	git diff readme.txt
+3. 查看工作区和版本库里最新版本的区别
+	git diff HEAD -- readme.txt
+	
+四、版本回退（把版本库中的文件回退）
+1. 查看历史记录
+	git log
+2. 在一行上查看记录
+	git log --pretty=oneline
+3. 当前版本表示：HEAD
+	上一个版本：HEAD^
+	上上一个版本：HEAD^^
+	以数字表示：HEAD~100
+4. 回退到上一个版本
+	git reset --hard HEAD^
+5. 回退到某一个版本
+	git reset --hard 版本号
+6. 查看历史命令和版本号
+	git reflog
+	
+五、撤销修改(git reset 既可以回退版本，又可以把暂存区的修改回退到工作区)
+1. 丢弃工作区的修改
+	git checkout -- readme.txt
+2. 把暂存区的修改撤销掉,重新放回工作区
+	git reset HEAD readme.txt
+	
+六、删除文件
+1. 从版本库中删除文件
+	git rm test.txt
+	git commit -m "remove test.txt"
+	
+七、远程仓库
+1. 将本地仓库与远程仓库关联
+	git remote add origin git@github.com:lihaogn/testgit.git
+2. 推送本地内容到远程(第一次推送加上-u参数)
+	git push -u origin master
+	第一次后可简写
+	git push origin master
+3. 克隆远程库
+	git clone git@github.com:lihaogn/testgit.git
+或者： git clone https://github.com//lihaogn/testgit.git
+
+八、分支管理
+1. 创建分支
+	创建了一个dev分支（-b表示创建并切换）
+	git checkout -b dev
+	只是创建： git branch dev
+	只是切换： git checkout dev
+2. 查看当前分支
+	git branch
+3. 合并当前分支(合并指定分支到当前分支)
+	git merge dev
+4. 删除分支
+	git branch -d dev
+5. 查看分支的合并情况
+	git log --grah -- pretty=oneline --abbrev-commit
+6. 使用fast forward模式合并时，删除分支后，会丢掉分支信息
+7. 用 --no--ff 模式合并，不使用fast forward时会生成一个新的commit
+	git merge --no--ff -m "merge with no--ff" dev
+8. 分支策略
+	master分支用来发布新版本，
+	在分支上干活（修改），发布时把dev合并到master
+9. bug分支
+	可以通过临时分支来处理bug
+10. 存储工作现场
+	git stash
+	查看工作现场
+	git stash list
+11. 恢复现场
+  11.1第一种方式：恢复后stash内容并不删除
+	git stash apply
+	删除stash中的内容
+	git stash drop
+  11.2 第二种方式：恢复后同时删除stash中内容
+	git stash pop
+  11.3 恢复指定的现场
+	git stash apply stash@{0}
+12. feature分支管理
+	方便添加新功能
+	没有合并分支要强行删除
+	git branch -D feature
+
+九、多人合作
+1. 	查看远程库的信息
+	git remote
+	
+2. 查看详细的信息
+	git remote -v
+	
+3. 推送分支，推送时要指定本地分支，把该分支推送到远程对应的分支上
+	git push origin master
+	推送其他分支
+	git push origin dev
+	
+4. 抓取分支
+
+	在本地创建和远程分支对应的分支，
+	使用git checkout -b branch-name origin/branch-name，
+	本地和远程分支的名称最好一致
+	
+	创建远程origin的dev分支到本地
+	git checkout -b dev origin/dev
+	抓取
+	git branch --set-upstream dev origin/dev   //指定本地dev分支
+										与远程origin/dev分支链接
+	git pull
+	
+5. 工作模式
+
+	首先，可以试图用git push origin branch-name推送自己的修改；
+
+	如果推送失败，则因为远程分支比你的本地更新，需要先用git pull
+	试图合并；
+
+	如果合并有冲突，则解决冲突，并在本地提交；
+
+	没有冲突或者解决掉冲突后，再用git push origin branch-name
+	推送就能成功！
+	
+十、标签管理
+1. 创建标签
+	git tag v1.0
+2. 查看all标签
+	git tag
+3. 默认标签是打在最新提交的commit上的	
+	有时候，如果忘了打标签，比如，现在已经是周五了，
+	但应该在周一打的标签没有打，怎么办？
+
+	方法是找到历史提交的commit id，然后打上就可以了
+	git log --pretty=oneline --abbrev-commit
+	git tag tagname id
+4. 查看标签信息
+	git show tagname
+5. 创建带有说明的标签
+	-a 指定标签名
+	-m 指定说明文字
+	git tag -a v0.1 -m "...." id
+6. 删除标签
+	git tag -d tagname
+7. 推送标签到远程
+	git push origin tagname
+	一次性推送全部尚未推送到远程的本地标签：
+	git push origin --tags
+8. 删除已经推送到远程的标签
+	8.1 先从本地删除
+		git tag -d tagname
+	8.2 从远程删除
+		git push origin :rdfs/tags/tagname
+
+十一、自定义git
+1.显示颜色
+	git config --global color.ui true
+2. 忽略特殊文件
+	https://github.com/github/gitignore
+3. 查看忽略规则
+	git check-ignore -v filename
+4. 配置别名
+	git config --global alias.st status
+	git config --global alias.co checkout
+	git config --global alias.ci commit
+	git config --global alias.br branch
+	
+	--global是全局参数，对当前的用户起作用，不加那只针对当前
+	的仓库起作用。
+	
+	

@@ -1,0 +1,76 @@
+一、jsp概述
+1. 动态网页技术标准，在html中嵌入java代码和jsp标签，构成jsp网页
+2. 接收到用户请求时，服务区会处理java代码，然后将生成结果返回给客户端
+
+二、配置eclipse
+1. 配置外部浏览器
+2. 配置编码格式
+
+三、配置tomcat
+1. 配置端口
+	打开conf下的server.xml文件
+	<Connector port="8080" protocol="HTTP/1.1"
+		connectionTimeout="20000"
+		redirectPort="8443"/>
+	可将port修改成其他的端口号
+	修改后要重启服务器
+2. 
+
+四、复制Web应用到tomcat部署web应用
+1. 将工程文件夹复制到webapps文件夹中，启动服务器
+2. 打开浏览器，输入http://服务器ip:端口号/应用程序名称（工程文件夹的名字）
+
+五、通过server.xml文件中陪置<Context>元素部署web应用
+1. 打开conf文件夹中server.xml文件
+2.在<Host></Host>中添加
+	<Context path="/01" docBase="文件路径" />
+	文件路径示例：D:/javaweb/test01
+	文件路径的斜杠\用反斜杠/代替
+3. 保存并重启服务器，在浏览器中输入http://localhost:8080/01/ 
+	可访问web应用test01
+	
+六、指令标签
+1. page指令
+	属性：language，extends， import，pageEncoding，contentType，session，
+			buffer，autoFlush，info，isErrorPage,errorPage,isELIgnored
+2. include指令
+	被include指令包含的jsp页面中不使用<html>和<body>这两个标签，其他可以用
+3. taglib指令
+	用于加载用户自定义标签
+	使用该指令加载后的标签可以直接在jsp页面中使用
+	语法格式：
+		<%@taglib prefix="fix" uri="tagUriorDir" %>
+
+七、内置对象
+1.九种内置对象：
+	request，response，session，application，out，pageContext，config，page，exception
+2.request中解决中文乱码问题
+	<%=new String(request.getParameter("name").getBytes("ISO8859-1"),"utf-8") %>
+3.response
+重定向：
+	response.sendRedirect("www.baidu.com");
+	使用该方法时不要html代码，重定向后的网页地址会改变。
+刷新网页；
+	response.setHeader("refresh","5");  //网页每5秒刷新一次
+	response.setHeader("refresh","2;URL=**.jsp");	//2秒后自动跳转
+设置输出缓冲：
+	response.setBufferSize(8);		//设置缓冲区大小为8kb
+4. session
+	服务器为每一个用户都生成了一个session对象，用于保存该用户的信息，跟踪用户的操作状态。
+	使用map类来保存数据。数据的格式都是键值对形式的。
+	
+	设置生命周期
+	setMaxInactiveInterval();	//以秒为单位设置session的有效时间
+5. application 
+	可将信息保存在服务器中，直到服务器关闭。application比session生命周期更长。
+6. pageContext
+	获取任何范围的参数
+7. error页面
+	index.jsp
+	<%............. errorPage="error.jsp %>
+	error.jsp
+	<%............. isErrorPage="true" %>
+	<%=exception.getMessage()%>
+	
+八、Servlet
+1、

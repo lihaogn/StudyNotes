@@ -73,4 +73,41 @@
 	<%=exception.getMessage()%>
 	
 八、Servlet
-1、
+
+1、配置 在web.xml
+
+	1.1 声明servlet对象
+		
+		<servlet>
+			<servlet-name>自定义的名字</servlet-name>
+			<servlet-class>包名.类名</servlet-class>
+		</servlet>
+		
+	1.2 映射servlet
+	
+		<servlet-mapping>
+			<servlet-name>和上面自定义的名字相同</servlet-name>
+			<url-pattern>/类名</url-pattern>
+		</servlet-mapping>
+		
+2. 配置servlet过滤器
+
+	2.1 声明过滤器对象
+		
+		<filter>
+			<filter-name>自定义过滤器的名称<filter-name>
+			<filter-class>包含过滤器的包名.类名</filter-class>
+			<init-param>
+				<param-name>需要初始化的参数的名称，例：encoding</param-name>
+				<param-value>初始化参数的值：例：GBK</param-value>
+			</init-param>
+		</filter>
+	
+	2.2 映射过滤器
+	
+		<filter-mapping>
+			<filter-name>和上面的名字相同</filter-name>
+			<url-pattern>/*</url-pattern>
+			<dispatcher>过滤器对应的请求方式</dispatcher>
+		</filter-mapping>
+		

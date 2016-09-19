@@ -147,4 +147,24 @@
 			<url-pattern>/*</url-pattern>		//指定关联的过滤器，这里是关联所有
 			<dispatcher>过滤器对应的请求方式</dispatcher>
 		</filter-mapping>
+
+九、MVC
+
+1.模型层(Model)、视图层(View)、控制层(Controller)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 		

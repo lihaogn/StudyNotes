@@ -50,12 +50,28 @@
 	git commit -m "remove test.txt"
 	
 七、远程仓库
+
+-1. 创建SSH KEY
+    ssh-keygen -t rsa -C "353179141@qq.com"
+    私钥是 id_rsa
+    公钥是 id_rsa.pub  
+    在github中，粘贴公钥的内容
+	
+0. 在github中新创建的库里有readme文件的话，就不能直接从本地push
+    先要    git pull origin master    把文件更新到本地
+	
 1. 将本地仓库与远程仓库关联
+
 	git remote add origin git@github.com:lihaogn/testgit.git
+	
 2. 推送本地内容到远程(第一次推送加上-u参数)
+
 	git push -u origin master
+	
 	第一次后可简写
+	
 	git push origin master
+	
 3. 克隆远程库
 	git clone git@github.com:lihaogn/testgit.git
 或者： git clone https://github.com//lihaogn/testgit.git
